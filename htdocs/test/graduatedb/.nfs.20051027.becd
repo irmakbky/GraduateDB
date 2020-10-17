@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+<form action="first.php" method="session">
+  First Name <br> <input type="text" name="fname"> <br>
+  Last Name <br> <input type="text" name="lname"><br>
+  Year of Graduation from ACI <br> <input type="text" name="yograd"><br>
+  <input type="submit" name="submit" value="Go">
+</form>
+
+
+
+    <?php
+
+    session_start();
+
+    if (isset($_SESSION['submit'])) {
+     $mysqli = new PDO ('mysql:host=localhost;dbname=graduatedb;charset=utf8mb4', 'root', '');
+
+     $_SESSION['fname'] = $fname;
+     $_SESSION['lname'] = $lname;
+     $_SESSION['yograd'] = $yograd;
+
+     $insertuser = "INSERT INTO graduates (fname, lname, yograd) VALUES ('$_SESSION[fname]','$_SESSION[lname]', $_SESSION[yograd]) ";
+
+     if($mysqli->query($insertuser) === 1) {
+        echo "done";
+
+      }
+      header("Location: addgraduate.php");
+      exit();
+  }
+
+     ?>
+
+
+  </body>
+</html>

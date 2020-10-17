@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <form action="person.php" method="post">
+      name: <br><input type="text" name="name">
+      field:
+      <br><input type="radio" name="field" value="tech">Tech
+      <br><input type="radio" name="field" value="sci">Sci
+      <br><input type="radio" name="field" value="eng">Eng
+      <input type="submit" name="submit" value="Submit">
+    </form>
+
+
+
+    <?php
+
+
+    if(isset($_POST['submit'])) {
+      $mysqli = new PDO ('mysql:host=localhost;dbname=databasefield;charset=utf8mb4', 'root', '');
+
+      $name = $_POST['name'];
+      $field = $_POST['field'];
+      $theperson= "INSERT INTO person (name) VALUES ('$name')";
+      if($mysqli->query($theperson) === 1) {
+        echo "done";
+      }
+      $personselectid = "SELECT person.id AS personid FROM person WHERE '$name'= name";
+      if($personselectid->rowCount() == 0 ){
+        echo "No";
+      }else {
+        while($rows = $personselectid->fetch(PDO::FETCH_ASSOC)){
+          $personid = $rows['personid'];
+          $thefield = $mysqli->query("SELECT fields.id AS fieldsid FROM fields WHERE '$field' = field" );
+          if($thefield->rowCount() == 0 ){
+              echo "No results";
+          }else{
+            while($rows = $thefield->fetch(PDO::FETCH_ASSOC)){
+              $fieldsid = $rows['fieldsid'];
+              $matchfield = "INSERT INTO gfield (person_id, field_id) VALUES ($personid, $fieldsid)";
+              if($mysqli->query($matchfield) === 1) {
+                 echo "done";
+
+               }
+            }
+          }
+        }
+      }
+
+
+
+}
+
+     ?>
+
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+
+    <form action="addgradute.php" method="post">
+      <input type="hidden" name="submitted" value="true">
+      First Name <br> <input type="text" name="fname"> <br>
+      Last Name <br> <input type="text" name="lname"><br>
+      Year of Graduation <br> <input type="text" name="yograd"><br>
+      Field (you can select more than one) <br>
+      <input type="radio" name="tech">Technology<br>
+      <input type="radio" name="sci">Science<br>
+      <input type="radio" name="eng">Engineering<br>
+      <br>
+      Field of Study <br> <input type="text" name="fostudy"><br>
+      <input type="submit" name="gotosecondpage" value="Go to Second Page">
+    </form>
+
+
+
+    <?php
+
+    if (isset($_POST['fname'])) {
+     $mysqli = new PDO ('mysql:host=localhost;dbname=graduatedb;charset=utf8mb4', 'root', '');
+
+     $fname = $_POST['fname'];
+  /*   $lname = $_POST['lname'];
+     $yograd = $_POST['yograd'];
+
+*/
+     $insertgraduate = "INSERT INTO graduates (fname) VALUES ('$fname')";
+
+     if($mysqli->query($insertgraduate) === TRUE) {
+        echo "done";
+     }
+
+    }
+
+
+
+    ?>
+
+
+  </body>
+</html>
